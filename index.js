@@ -15,7 +15,7 @@ const uri = process.env.MONGO_URI;
 
 app.use(cors(
     {
-        origin: 'https://recipiegen.vercel.app/',
+        origin: 'https://recipiegen.vercel.app',
         credentials: true
     }
 ));
