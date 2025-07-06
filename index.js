@@ -15,7 +15,7 @@ const uri = process.env.MONGO_URI;
 
 app.use(cors(
     {
-        origin: 'http://localhost:5173',
+        origin: 'https://recipiegen.vercel.app/',
         credentials: true
     }
 ));
@@ -73,8 +73,8 @@ app.get('/profile', (req, res) => {
 app.get('/logout', (req, res) => {
   res.cookie('token',' ', {
     httpOnly: true,
-    sameSite: 'lax', // 'none' if using HTTPS + secure
-    secure: false,   // true if deployed on HTTPS
+    sameSite: 'none', // 'none' if using HTTPS + secure
+    secure: true,   // true if deployed on HTTPS
   });
   res.status(200).json({ message: 'Logged out successfully' });
 });
