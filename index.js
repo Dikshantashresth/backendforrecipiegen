@@ -12,10 +12,14 @@ dotenv.config();
 const app = express();
 const key = process.env.SECRET_KEY;
 const uri = process.env.MONGO_URI;
-
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://recipiegen.vercel.app',
+  'https://recipiegen-qtq3r9evo-dikshantashresths-projects.vercel.app/'
+];
 app.use(cors(
     {
-        origin: 'https://recipiegen.vercel.app',
+        origin: allowedOrigins,
         credentials: true
     }
 ));
