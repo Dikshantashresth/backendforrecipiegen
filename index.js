@@ -16,7 +16,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'https://recipiegen.vercel.app',
   'https://recipiegen-qtq3r9evo-dikshantashresths-projects.vercel.app',
-  'https://recipiegen-qtq3r9evo-dikshantashresths-projects.vercel.app'
+  'https://recipiegen-git-main-dikshantashresths-projects.vercel.app'
 ];
 app.use(cors(
     {
@@ -91,18 +91,39 @@ app.get('/logout', (req, res) => {
         res.status(200).json(recipies);
     }
   })
-app.post('/addrecipie',async (req,res)=>{
-    const {Title,Description,Ingredients,Procedure} = req.body;
+app.post('/addrecipie', async (req, res) => {
+  try {
+    const token = req.cookies?.token;
+    if (!token) return res.status(401).json({ message: 'Unauthorized' });
+
+    let userData;
+    try {
+      userData = jwt.verify(token, key);
+    } catch (err) {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+
+    const { Title, Description, Ingredients, Procedure } = req.body;
+
+    if (!Title || !Description || !Ingredients || !Procedure) {
+      return res.status(400).json({ message: 'Missing fields' });
+    }
+
     const recipie = await recipiemodel.create({
-        user: req.cookies.token ? jwt.verify(req.cookies.token, key).userid : null,
-        recipiename: Title,
-        desc: Description,
-        ingredients: Ingredients,
-        process: Procedure 
+      user: userData.userid,
+      recipiename: Title,
+      desc: Description,
+      ingredients: Ingredients,
+      process: Procedure,
     });
-    res.status(201).json({ message: 'Recipe added', recipie: recipie});
-    
-})
+
+    res.status(201).json({ message: 'Recipe added', recipie });
+  } catch (err) {
+    console.error('❌ Error in /addrecipie:', err);
+    res.status(500).json({ message: 'Internal server error', error: err.message });
+  }
+});
+
 app.get('/myrecipies',async(req,res)=>{
     const token = req.cookies?.token;
 
