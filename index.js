@@ -15,7 +15,8 @@ const uri = process.env.MONGO_URI;
 const allowedOrigins = [
   'http://localhost:5173',
   'https://recipiegen.vercel.app',
-  'https://recipiegen-qtq3r9evo-dikshantashresths-projects.vercel.app/'
+  'https://recipiegen-qtq3r9evo-dikshantashresths-projects.vercel.app',
+  'https://recipiegen-qtq3r9evo-dikshantashresths-projects.vercel.app'
 ];
 app.use(cors(
     {
