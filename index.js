@@ -80,7 +80,7 @@ app.get('/profile', (req, res) => {
     });
 });
 app.get('/logout', (req, res) => {
-    res.cookie('token', '', {
+    res.clearCookie('token', {
         httpOnly: true,
         sameSite: 'none', // 'none' if using HTTPS + secure
         secure: true,   // true if deployed on HTTPS
@@ -93,6 +93,8 @@ app.get('/search', async (req, res) => {
     const recipies = await recipiemodel.find({ recipiename: new RegExp(title, 'i') });
     if (recipies.length > 0) {
         res.status(200).json(recipies);
+    }else{
+        res.status(200).json('no such food');
     }
 })
 app.post('/addrecipie', async (req, res) => {
