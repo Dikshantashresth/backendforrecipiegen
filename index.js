@@ -62,14 +62,16 @@ app.post('/login', async (req, res) => {
     })
   }
 })
-app.delete('/delete/:id',async(req,res)=>{
-  const {id} = req.body.params;
-  const deleted = await recipiemodel.deleteOne({user: id});
-  if(deleted){
-    console.log('deleted');
+app.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params; 
+  const deleted = await recipiemodel.deleteOne({ _id: id }); 
+  if (deleted.deletedCount > 0) {
+    console.log('Deleted');
+    res.status(200).json({ success: true });
+  } else {
+    res.status(404).json({ error: 'Not found' });
   }
-
-})
+});
 app.get('/profile', (req, res) => {
   const token = req.cookies?.token;
   if (!token) {
