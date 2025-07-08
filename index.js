@@ -106,7 +106,7 @@ app.get('/search', async (req, res) => {
   if (recipies.length > 0) {
     res.status(200).json(recipies);
   } else {
-    res.status(200).json('no such food');
+    res.status(200).json([]);
   }
 })
 app.post('/addrecipie', async (req, res) => {
